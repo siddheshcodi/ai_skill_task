@@ -1,0 +1,8 @@
+# Example people list for the demo. For real use, copy people.yaml.example
+# to people.yaml (git-ignored) and use real addresses.
+sender: Team Lead
+
+Priya Shah: priya.shah@example.com
+Priya Kumar: priya.kumar@example.com
+Rahul Mehta: rahul.mehta@example.com
+Anita Rao: anita.rao@example.com
