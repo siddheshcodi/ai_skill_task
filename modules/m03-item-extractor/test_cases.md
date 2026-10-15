@@ -48,7 +48,7 @@
 | TC-EXT-031 | `Name will …` | F | P1 | `Rahul will update the CRM by 2026-10-12` | Rahul / update the CRM / by 2026-10-12 | M3 table |
 | TC-EXT-032 | `@Name …` | F | P1 | `@Anita book the demo room` | Anita / book the demo room / none | M3 table |
 | TC-EXT-033 | `Name: …` | F | P1 | `Priya: send the revised quote` | Priya / send the revised quote / none | M3 |
-| TC-EXT-034 | No owner | F | P1 | `Share the slide deck with the client` | none / share the slide deck with the client / none | E3 |
+| TC-EXT-034 | No owner | F | P1 | `Share the slide deck with the client` | none / Share the slide deck with the client (task kept as written) / none | E3 |
 | TC-EXT-035 | Full name owner | F | P1 | `Priya Shah to send the quote` | Priya Shah / send the quote | M4 input |
 | TC-EXT-036 | Name + initial | F | P1 | `Priya S. to send the quote` | Priya S. / send the quote | M4 input |
 | TC-EXT-037 | Initial without dot | E | P2 | `Priya S to send the quote` | Priya S / send the quote | M4 input |

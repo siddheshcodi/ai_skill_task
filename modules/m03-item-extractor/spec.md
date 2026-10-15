@@ -42,7 +42,7 @@ Suggested pattern (to refine against sample notes):
 | `Priya to send the revised quote by Friday` | Priya | send the revised quote | by Friday |
 | `Rahul will update the CRM by 2026-10-12` | Rahul | update the CRM | by 2026-10-12 |
 | `@Anita book the demo room` | Anita | book the demo room | (none) |
-| `Share the slide deck with the client` | (none) | share the slide deck with the client | (none) |
+| `Share the slide deck with the client` | (none) | Share the slide deck with the client | (none) |
 
 ### Owner patterns
 

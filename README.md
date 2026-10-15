@@ -4,7 +4,7 @@ A command-line tool that reads markdown meeting notes, collects the action
 items in them, tracks their status, and prepares follow-up emails as **Gmail
 drafts**. It never sends email.
 
-> **Status: milestone 2 of 9.** The CLI skeleton, project setup and CI are in
+> **Status: milestone 3 of 9.** The CLI, note reader and item extractor are in
 > place. The commands parse and validate their input but report
 > "not available yet" until their modules land (see [Roadmap](#roadmap)).
 
@@ -78,6 +78,9 @@ actiontrack/
   cli.py       M1  commands, validation, exit codes
   models.py        shared data types
   errors.py        error types -> exit codes
+  reader.py    M2  find notes, read date and attendees
+  extractor.py M3  find checkbox items, split owner / task / due
+  dates.py     M5  due-date vocabulary (resolver in milestone 4)
 tests/
   unit/            per-module tests
   safety/          never-send checks (NFR-02)
@@ -89,9 +92,9 @@ tests/
 | # | Milestone | Status |
 |---|---|---|
 | 1 | Explore sample notes | Done with assumed formats (no samples provided) |
-| 2 | Project setup + CLI skeleton | **Done** |
-| 3 | Note reader + item extractor | Next |
-| 4 | Owner + date resolvers | |
+| 2 | Project setup + CLI skeleton | Done |
+| 3 | Note reader + item extractor | **Done** |
+| 4 | Owner + date resolvers | Next |
 | 5 | Dedupe + storage → `ingest` | |
 | 6 | `list` and `done` | |
 | 7 | `followup` | |

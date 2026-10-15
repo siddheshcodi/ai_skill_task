@@ -5,8 +5,8 @@ cases listed in `modules/*/test_cases.md`.
 
 | Folder | Used by | Added in |
 |---|---|---|
-| `reader/` | TC-RDR-* | Milestone 3 |
-| `extractor/` | TC-EXT-* | Milestone 3 |
+| `notes/` | Sample note from the requirements (demo + integration) | Milestone 3 |
+| `reader/`, `extractor/` | Generated in `tmp_path` by the unit tests | Milestone 3 |
 | `dedupe/` (N1, N2, N3) | TC-DUP-* | Milestone 5 |
 | `mix/` | TC-REP-* | Milestone 8 |
 
