@@ -1,0 +1,10 @@
+# Copy to people.yaml and fill in real addresses.
+# Keys are full names exactly as written in the notes' "Attendees:" line.
+# people.yaml is git-ignored so real addresses are never committed.
+
+sender: Your Name            # name used to sign follow-up emails
+
+Priya Shah: priya.shah@example.com
+Priya Kumar: priya.kumar@example.com
+Rahul Mehta: rahul.mehta@example.com
+Anita Rao: anita.rao@example.com

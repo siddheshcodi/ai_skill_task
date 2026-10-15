@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Environments
+.venv/
+venv/
+
+# Tooling
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local data (never commit real tasks, emails or drafts)
+actiontrack.json
+actiontrack.json.bak
+actiontrack.json.tmp
+people.yaml
+outbox/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
