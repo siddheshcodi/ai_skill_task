@@ -73,7 +73,7 @@ def test_list_output_has_no_colour_when_piped(run):  # TC-QRY-030
     assert "\033[" not in out
 
 
-def test_done_then_list(run):  # FR-DON-01, Acceptance #6
+def test_done_then_list(run):  # FR-DON-01, Acceptance #6, TC-QRY-101
     code, out, _ = run("done", "1")
     assert (code, out.strip()) == (EXIT_OK, "Item 1 marked as done: send the revised quote")
     _, out, _ = run("list", "--status", "done")

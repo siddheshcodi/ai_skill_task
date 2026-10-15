@@ -56,7 +56,7 @@ def ingest(store: Store, *items: ResolvedItem):
         ("Send The Revised Quote", None, "send the revised quote"),  # TC-DUP-001
         ("send the revised quote!!!", None, "send the revised quote"),  # TC-DUP-002
         ("send the revised-quote.", None, "send the revisedquote"),
-        ("send the revised quote by Friday", "by Friday", "send the revised quote"),  # 003
+        ("send the revised quote by Friday", "by Friday", "send the revised quote"),  # TC-DUP-003
         ("send   the  revised quote ", None, "send the revised quote"),  # TC-DUP-004
         ("send the quote 🚀", None, "send the quote"),  # TC-DUP-005
         ("réunion notes", None, "réunion notes"),
@@ -114,7 +114,7 @@ def test_not_duplicates(store, a, b, owner_b):
     assert_merged(store, resolved(a), resolved(b, owner=owner_b, note=N2), expected_count=2)
 
 
-def test_threshold_is_inclusive(store):  # TC-DUP-026..028
+def test_threshold_is_inclusive(store):  # TC-DUP-026..028, TC-DUP-092
     a, b = "send the revised quote", "send the revision of quote"
     score = similarity(normalize_task(a), normalize_task(b))
     item = store.add(to_new_item(resolved(a)))
@@ -126,7 +126,7 @@ def test_threshold_is_inclusive(store):  # TC-DUP-026..028
     ("a", "b"),
     [
         ("call Rahul", "call Anita"),  # TC-DUP-029 (QA-26)
-        ("send the revised quote to Acme Corp", "send the revised quote to Acme Co"),  # 030
+        ("send the revised quote to Acme Corp", "send the revised quote to Acme Co"),  # TC-DUP-030
         ("update Q3 forecast numbers", "update Q4 forecast numbers"),
     ],
 )

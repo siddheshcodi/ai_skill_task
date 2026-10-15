@@ -116,6 +116,6 @@ tests/
 | 4 | Owner + date resolvers | Done |
 | 5 | Dedupe + storage → `ingest` | Done |
 | 6 | `list` and `done` | Done |
-| 7 | `followup` | **Done** |
-| 8 | Reporting + full test pass | Next |
-| 9 | README + demo | |
+| 7 | `followup` | Done |
+| 8 | Reporting + full test pass | **Done** (514/514 test cases traced) |
+| 9 | README + demo | Next |

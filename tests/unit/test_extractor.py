@@ -165,18 +165,18 @@ def test_no_owner_gives_none():  # TC-EXT-034
     ("text", "task", "due"),
     [
         ("Priya to send the quote by Friday", "send the quote", "by Friday"),  # TC-EXT-060
-        ("Rahul to update the CRM by 2026-10-12", "update the CRM", "by 2026-10-12"),  # 061
-        ("Rahul to call the client on Monday", "call the client", "on Monday"),  # 062
-        ("Rahul to send report by 12/10/2026", "send report", "by 12/10/2026"),  # 063
-        ("Rahul to send report by Oct 12", "send report", "by Oct 12"),  # 064
-        ("Rahul to send report tomorrow", "send report", "tomorrow"),  # 065
+        ("Rahul to update the CRM by 2026-10-12", "update the CRM", "by 2026-10-12"),  # TC-EXT-061
+        ("Rahul to call the client on Monday", "call the client", "on Monday"),  # TC-EXT-062
+        ("Rahul to send report by 12/10/2026", "send report", "by 12/10/2026"),  # TC-EXT-063
+        ("Rahul to send report by Oct 12", "send report", "by Oct 12"),  # TC-EXT-064
+        ("Rahul to send report tomorrow", "send report", "tomorrow"),  # TC-EXT-065
         ("Rahul to send report EOD", "send report", "EOD"),
         ("Rahul to send report EOW", "send report", "EOW"),
         ("Rahul to send report next week", "send report", "next week"),
         ("Rahul to send report end of month", "send report", "end of month"),
         ("Rahul to send report today", "send report", "today"),
         ("Rahul to send report end of the week", "send report", "end of the week"),
-        ("Rahul to send report due Friday", "send report", "due Friday"),  # 066
+        ("Rahul to send report due Friday", "send report", "due Friday"),  # TC-EXT-066
         ("Rahul to send report before Oct 12", "send report", "before Oct 12"),
         ("Rahul to send report by 12 October 2026", "send report", "by 12 October 2026"),
         ("Rahul to send report by Oct 12th", "send report", "by Oct 12th"),
@@ -184,8 +184,12 @@ def test_no_owner_gives_none():  # TC-EXT-034
         ("Priya to send the quote soon", "send the quote", "soon"),  # TC-EXT-067
         ("Priya to send the quote by ASAP", "send the quote", "by ASAP"),
         ("Priya to send the quote in 2 days", "send the quote", "in 2 days"),
-        ("Priya to get sign-off by the client", "get sign-off by the client", None),  # 068
-        ("Rahul to review by Priya's notes by Friday", "review by Priya's notes", "by Friday"),
+        ("Priya to get sign-off by the client", "get sign-off by the client", None),  # TC-EXT-068
+        (
+            "Rahul to review by Priya's notes by Friday",
+            "review by Priya's notes",
+            "by Friday",
+        ),  # TC-EXT-069
         ("Priya to send the quote by Friday.", "send the quote", "by Friday"),  # TC-EXT-071
         ("Priya to send the quote (by Fri)", "send the quote", "by Fri"),  # TC-EXT-072
         ("Priya to send the quote BY FRIDAY", "send the quote", "BY FRIDAY"),
@@ -274,3 +278,11 @@ def test_no_catastrophic_backtracking(line):  # TC-EXT-090
 def test_extraction_is_repeatable():  # TC-EXT-091
     n = note(SAMPLE)
     assert extract_items(n) == extract_items(n)
+
+
+def test_due_phrase_in_middle_is_not_extracted():  # TC-EXT-070
+    assert split_line("Priya by Friday to send the quote") == (
+        None,
+        "Priya by Friday to send the quote",
+        None,
+    )

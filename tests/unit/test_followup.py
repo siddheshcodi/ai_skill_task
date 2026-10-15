@@ -190,7 +190,7 @@ Team Lead
 """
 
 
-def test_email_matches_template(run, creator):  # TC-FUP-040..046, 051, FR-FUP-02
+def test_email_matches_template(run, creator):  # TC-FUP-040..046, 048, 051, FR-FUP-02
     run("Priya Shah")
     (email,) = creator.drafts
     assert email.to == "priya.shah@example.com"  # TC-FUP-060
@@ -233,7 +233,7 @@ def test_special_characters_stay_plain_text():  # TC-FUP-052, TC-FUP-053
     assert 'Send <b>"Q&A"</b> deck 🚀 (no due date, from legal-1008.md)' in email.body
 
 
-def test_sender_from_environment(run, creator, monkeypatch):  # Q4
+def test_sender_from_environment(run, creator, monkeypatch):  # Q4, TC-FUP-087
     monkeypatch.setenv("ACTIONTRACK_SENDER", "Asha (PM)")
     run("Priya Shah")
     assert creator.drafts[0].body.endswith("Thanks,\nAsha (PM)\n")
@@ -270,7 +270,7 @@ def test_dry_run_prints_and_creates_nothing(run, creator):  # TC-FUP-083, FR-FUP
     assert out.rstrip().endswith("(dry run: no draft created)")
 
 
-def test_missing_email_is_an_error(run, creator, tmp_path):  # TC-FUP-061, FR-FUP-08
+def test_missing_email_is_an_error(run, creator, tmp_path):  # TC-FUP-061, TC-FUP-026, FR-FUP-08
     with pytest.raises(ConfigError, match="No email address for Vikram"):
         run("Vikram")
     assert creator.drafts == []

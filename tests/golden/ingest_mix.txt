@@ -1,0 +1,16 @@
+Ingest complete
+  Files read:                  3
+  Files skipped:               3
+  New items:                   5
+  Duplicates merged:           1
+  Unassigned items:            1
+  Ambiguous owners:            1
+  Owners not in attendees:     1
+
+Skipped files:
+  - mix/meeting_17.md: no meeting date found
+  - mix/meeting_22.md: file is empty
+  - mix/meeting_29.md: cannot read file (encoding error)
+
+Owners not in attendee list:
+  - mix/good-3.md: "Vikram" (item 5)

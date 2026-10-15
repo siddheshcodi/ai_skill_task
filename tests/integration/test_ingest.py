@@ -47,7 +47,7 @@ def items_by_task(store_path: Path) -> dict:
 # ---------------------------------------------------------------- end-to-end merge rules
 
 
-def test_three_meetings(notes, store_path):
+def test_three_meetings(notes, store_path):  # TC-DUP-050, TC-DUP-051, TC-DUP-073, TC-DAT-016
     report = ingest_folder(notes, store_path)
     items = items_by_task(store_path)
 
@@ -210,7 +210,7 @@ def test_random_notes_never_crash(tmp_path, store_path):  # TC-REP-063
 
 
 @pytest.mark.perf
-def test_fifty_notes_ingest_quickly(tmp_path, store_path):  # NFR-03, TC-REP-061/062
+def test_fifty_notes_ingest_quickly(tmp_path, store_path):  # NFR-03, TC-REP-060..062, TC-DUP-090
     folder = tmp_path / "many"
     folder.mkdir()
     for n in range(50):

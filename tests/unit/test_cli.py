@@ -146,7 +146,7 @@ def test_default_store_path(calls):
 
 def _error(capsys) -> str:
     err = capsys.readouterr().err
-    assert "Traceback" not in err  # TC-CLI-056
+    assert "Traceback" not in err  # TC-CLI-056, TC-REP-045
     return err
 
 
@@ -171,7 +171,7 @@ def test_ingest_requires_folder(capsys):  # TC-CLI-023
     assert "folder" in _error(capsys)
 
 
-def test_ingest_folder_not_found(capsys, tmp_path):  # TC-CLI-024
+def test_ingest_folder_not_found(capsys, tmp_path):  # TC-CLI-024, TC-REP-042
     missing = tmp_path / "no_such_dir"
     assert cli.main(["ingest", str(missing)]) == EXIT_USAGE
     assert "not found" in _error(capsys)
@@ -185,7 +185,7 @@ def test_ingest_path_is_a_file(capsys, tmp_path):  # TC-CLI-025
 
 
 @pytest.mark.parametrize("value", ["late", "", "closed"])
-def test_invalid_status(capsys, value):  # TC-CLI-026, TC-CLI-027
+def test_invalid_status(capsys, value):  # TC-CLI-026, TC-CLI-027, TC-QRY-063
     assert cli.main(["list", "--status", value]) == EXIT_USAGE
     assert "open, done or overdue" in _error(capsys)
 
@@ -199,7 +199,7 @@ def test_status_is_case_insensitive(calls, value, expected):  # TC-CLI-028 (QA-1
 @pytest.mark.parametrize(
     "value",
     [
-        "12-10-2026",  # TC-CLI-029
+        "12-10-2026",  # TC-CLI-029, TC-QRY-075
         "2026/10/12",
         "tomorrow",
         "20261012",
