@@ -19,12 +19,16 @@ from actiontrack import __version__
 from actiontrack.errors import (
     EXIT_FAILURE,
     EXIT_INTERRUPTED,
+    EXIT_OK,
     EXIT_USAGE,
     ActionTrackError,
     NotImplementedYetError,
     UserInputError,
 )
+from actiontrack.ingest import run_ingest
 from actiontrack.models import FILTER_STATUSES
+from actiontrack.report import format_report
+from actiontrack.store import Store
 
 PROG = "actiontrack"
 DEFAULT_STORE = "actiontrack.json"
@@ -210,7 +214,12 @@ def _cmd_ingest(args: argparse.Namespace) -> int:
         raise UserInputError(f"folder '{folder}' not found. Check the path and try again.")
     if not folder.is_dir():
         raise UserInputError(f"'{folder}' is not a folder. Give the folder that holds the notes.")
-    raise NotImplementedYetError("'ingest' is not available yet (planned for milestone 5).")
+    store = Store(_store_path(args))
+    report = run_ingest(folder, store)
+    for warning in store.warnings:
+        print(f"Warning: {warning}", file=sys.stderr)
+    print(format_report(report))
+    return EXIT_OK
 
 
 def _cmd_list(args: argparse.Namespace) -> int:
