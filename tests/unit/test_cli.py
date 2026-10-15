@@ -265,7 +265,7 @@ def test_owner_whitespace_is_collapsed(calls):  # TC-QRY-050
 
 
 def test_not_implemented_command_fails_cleanly(capsys):
-    assert cli.main(["list"]) == EXIT_FAILURE
+    assert cli.main(["followup", "Priya"]) == EXIT_FAILURE
     assert "not available yet" in _error(capsys)
 
 
@@ -324,3 +324,8 @@ def test_process_usage_error_goes_to_stderr():  # TC-CLI-057
     assert result.returncode == EXIT_USAGE
     assert result.stdout == ""
     assert "Error:" in result.stderr
+
+
+def test_no_color_env_disables_colour(monkeypatch):  # TC-QRY-030
+    monkeypatch.setenv("NO_COLOR", "1")
+    assert cli._color_enabled() is False

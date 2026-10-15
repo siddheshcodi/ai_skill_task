@@ -96,10 +96,10 @@ Seed store (used unless stated otherwise):
 
 | ID | Scenario | Type | Pri | Command | Expected | Trace |
 |---|---|---|---|---|---|---|
-| TC-QRY-080 | Owner + status | F | P1 | `list --owner "Priya Shah" --status overdue` | #1 | FR-LST-05 |
+| TC-QRY-080 | Owner + status | F | P1 | `list --owner "Priya Shah" --status overdue` | #1, #5 (ambiguous item listing Priya Shah, QA-33) | FR-LST-05 |
 | TC-QRY-081 | Owner + due-before | F | P1 | `list --owner rahul --due-before 2026-10-18` | #8 | FR-LST-05 |
 | TC-QRY-082 | Status + due-before | F | P1 | `list --status open --due-before 2026-10-16` | #1, #5, #6 | FR-LST-05 |
-| TC-QRY-083 | All three | F | P1 | `list --owner "Priya Shah" --status open --due-before 2026-10-31` | #1 | FR-LST-05, Acceptance #5 |
+| TC-QRY-083 | All three | F | P1 | `list --owner "Priya Shah" --status open --due-before 2026-10-31` | #1, #5 (QA-33) | FR-LST-05, Acceptance #5 |
 | TC-QRY-084 | Conflicting filters | E | P2 | `list --status done --due-before 2000-01-01` | `No items found.`; exit `0` | FR-LST-05 |
 | TC-QRY-085 | Overdue + due-before | E | P3 | `list --status overdue --due-before 2026-10-10` | #1 | FR-LST-05 |
 | TC-QRY-086 | Repeated option | E | P3 | `list --owner rahul --owner anita` | ❓QA-36 Last wins **or** error — defined, no crash | M1 |

@@ -4,8 +4,8 @@ A command-line tool that reads markdown meeting notes, collects the action
 items in them, tracks their status, and prepares follow-up emails as **Gmail
 drafts**. It never sends email.
 
-> **Status: milestone 5 of 9.** `actiontrack ingest` works end to end. `list`, `done` and `followup` are
-> next: they parse and validate their input but report
+> **Status: milestone 6 of 9.** `ingest`, `list` and `done` work end to end. `followup` is
+> next: it parses and validates its input but reports
 > "not available yet" until their modules land (see [Roadmap](#roadmap)).
 
 ## Install
@@ -84,6 +84,7 @@ actiontrack/
   dates.py     M5  due phrase -> calendar date (relative to meeting)
   dedupe.py    M6  merge repeated tasks across meetings
   store.py     M7  JSON store, stable IDs, atomic save
+  query.py     M8  list filters, overdue rule, table, done
   report.py    M10 ingest summary
   ingest.py        ingest pipeline (per-note error boundary)
 tests/
@@ -101,8 +102,8 @@ tests/
 | 2 | Project setup + CLI skeleton | Done |
 | 3 | Note reader + item extractor | Done |
 | 4 | Owner + date resolvers | Done |
-| 5 | Dedupe + storage → `ingest` | **Done** |
-| 6 | `list` and `done` | Next |
-| 7 | `followup` | |
+| 5 | Dedupe + storage → `ingest` | Done |
+| 6 | `list` and `done` | **Done** |
+| 7 | `followup` | Next |
 | 8 | Reporting + full test pass | |
 | 9 | README + demo | |

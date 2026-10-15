@@ -8,7 +8,9 @@ service function; until a service exists the handler raises
 from __future__ import annotations
 
 import argparse
+import os
 import re
+import shutil
 import sys
 import traceback
 from datetime import date
@@ -27,6 +29,7 @@ from actiontrack.errors import (
 )
 from actiontrack.ingest import run_ingest
 from actiontrack.models import FILTER_STATUSES
+from actiontrack.query import DoneResult, filter_items, format_table, mark_done
 from actiontrack.report import format_report
 from actiontrack.store import Store
 
@@ -214,20 +217,68 @@ def _cmd_ingest(args: argparse.Namespace) -> int:
         raise UserInputError(f"folder '{folder}' not found. Check the path and try again.")
     if not folder.is_dir():
         raise UserInputError(f"'{folder}' is not a folder. Give the folder that holds the notes.")
-    store = Store(_store_path(args))
-    report = run_ingest(folder, store)
-    for warning in store.warnings:
-        print(f"Warning: {warning}", file=sys.stderr)
-    print(format_report(report))
+    store = _open_store(args)
+    print(format_report(run_ingest(folder, store)))
     return EXIT_OK
 
 
 def _cmd_list(args: argparse.Namespace) -> int:
-    raise NotImplementedYetError("'list' is not available yet (planned for milestone 6).")
+    store = _open_store(args)
+    today = _today()
+    items = filter_items(
+        store.load_all(),
+        today=today,
+        owner=args.owner,
+        status=args.status,
+        due_before=args.due_before,
+    )
+    interactive = sys.stdout.isatty()
+    width = shutil.get_terminal_size().columns if interactive else None
+    print(format_table(items, today, color=interactive and _color_enabled(), max_width=width))
+    return EXIT_OK
 
 
 def _cmd_done(args: argparse.Namespace) -> int:
-    raise NotImplementedYetError("'done' is not available yet (planned for milestone 6).")
+    store = _open_store(args)
+    result, item = mark_done(store, args.id)
+    if result is DoneResult.ALREADY_DONE:
+        print(f"Item {item.id} is already done: {item.task}")
+        return EXIT_OK
+    store.save()
+    print(f"Item {item.id} marked as done: {item.task}")
+    return EXIT_OK
+
+
+def _open_store(args: argparse.Namespace) -> Store:
+    store = Store(_store_path(args))
+    store.load_all()  # surface store errors and warnings before doing anything else
+    for warning in store.warnings:
+        print(f"Warning: {warning}", file=sys.stderr)
+    return store
+
+
+def _today() -> date:
+    """Today's date for overdue checks (§11); patched in tests."""
+    return date.today()
+
+
+def _color_enabled() -> bool:
+    """Colour unless NO_COLOR is set; on Windows, switch on ANSI support first."""
+    if "NO_COLOR" in os.environ:
+        return False
+    if sys.platform != "win32":
+        return True
+    try:
+        import ctypes
+
+        kernel32 = ctypes.windll.kernel32
+        handle = kernel32.GetStdHandle(-11)  # STD_OUTPUT_HANDLE
+        mode = ctypes.c_uint32()
+        if not kernel32.GetConsoleMode(handle, ctypes.byref(mode)):
+            return False
+        return bool(kernel32.SetConsoleMode(handle, mode.value | 0x0004))  # VT processing
+    except (AttributeError, OSError):
+        return False
 
 
 def _cmd_followup(args: argparse.Namespace) -> int:
