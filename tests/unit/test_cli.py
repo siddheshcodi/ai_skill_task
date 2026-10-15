@@ -264,9 +264,10 @@ def test_owner_whitespace_is_collapsed(calls):  # TC-QRY-050
 # ---------------------------------------------------------------- error mapping
 
 
-def test_not_implemented_command_fails_cleanly(capsys):
-    assert cli.main(["followup", "Priya"]) == EXIT_FAILURE
-    assert "not available yet" in _error(capsys)
+def test_expected_error_is_reported_without_traceback(tmp_path, capsys):
+    missing_store = tmp_path / "none.json"
+    assert cli.main(["--store", str(missing_store), "followup", "Priya"]) == EXIT_FAILURE
+    assert "No items found for 'Priya'" in _error(capsys)
 
 
 def test_unexpected_error_is_reported_without_traceback(monkeypatch, capsys):

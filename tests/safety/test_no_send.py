@@ -8,6 +8,7 @@ Runs from milestone 2 so the guarantee holds from the first line of M9.
 from __future__ import annotations
 
 import ast
+import re
 from pathlib import Path
 
 import pytest
@@ -24,8 +25,12 @@ def _sources() -> list[Path]:
     return sorted(PACKAGE_DIR.rglob("*.py"))
 
 
+_SEND_NAME_RE = re.compile(r"^(?:(?:send|Send|SEND)(?:$|_)|[sS]end[A-Z])")
+
+
 def _is_send_name(name: str) -> bool:
-    return name.lower().startswith("send")
+    """send, send_message, sendMail, SendDraft ... but not sender or sending."""
+    return bool(_SEND_NAME_RE.match(name))
 
 
 def _violations(tree: ast.AST) -> list[str]:
@@ -75,3 +80,23 @@ def test_scanner_catches_send_code():
         "call_tool('send_message')\n"
     )
     assert len(_violations(ast.parse(sample))) == 4
+
+
+@pytest.mark.parametrize(
+    ("name", "blocked"),
+    [
+        ("send", True),
+        ("send_message", True),
+        ("sendMail", True),
+        ("SendDraft", True),
+        ("SEND", True),
+        ("SEND_MESSAGE", True),
+        ("SENDER_ENV", False),
+        ("sender", False),
+        ("sender_name", False),
+        ("sending", False),
+        ("create_draft", False),
+    ],
+)
+def test_send_name_rule(name, blocked):
+    assert _is_send_name(name) is blocked

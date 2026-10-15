@@ -66,6 +66,15 @@ class ResolvedItem:
     note: Note
 
 
+@dataclass(frozen=True)
+class Email:
+    """A composed follow-up email (M9). Only ever saved as a draft."""
+
+    to: str
+    subject: str
+    body: str
+
+
 @dataclass
 class Item:
     """One stored action item (M7 data model)."""

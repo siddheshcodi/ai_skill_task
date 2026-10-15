@@ -43,7 +43,3 @@ class ConfigError(ActionTrackError):
 
 class DraftError(ActionTrackError):
     """A Gmail draft could not be created."""
-
-
-class NotImplementedYetError(ActionTrackError):
-    """A command exists in the CLI but its module is not built yet."""

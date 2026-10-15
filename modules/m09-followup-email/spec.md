@@ -51,7 +51,7 @@ Thanks,
 - Count in subject = overdue + open items.
 - Greeting uses the first name.
 - Task text capitalised for display.
-- `due <date>` or `no due date`; `from <meeting title>` when known (otherwise the source file name).
+- `due <date>` or `no due date`; `from <meeting title>` when known (otherwise the source file name). Shown on every line, open and overdue, so the reader always knows where a task came from.
 - Omit the `Overdue` or `Open` section when it is empty.
 - Within each section, sort by due date (no due date last).
 

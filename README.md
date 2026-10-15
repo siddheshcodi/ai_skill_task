@@ -4,9 +4,8 @@ A command-line tool that reads markdown meeting notes, collects the action
 items in them, tracks their status, and prepares follow-up emails as **Gmail
 drafts**. It never sends email.
 
-> **Status: milestone 6 of 9.** `ingest`, `list` and `done` work end to end. `followup` is
-> next: it parses and validates its input but reports
-> "not available yet" until their modules land (see [Roadmap](#roadmap)).
+> **Status: milestone 7 of 9.** All four commands work end to end. Remaining:
+> full test pass against the test cases and a final demo (see [Roadmap](#roadmap)).
 
 ## Install
 
@@ -46,10 +45,20 @@ Attendees: Priya Shah, Rahul Mehta, Anita Rao
 - [x] Anita to book the demo room
 ```
 
-## Email addresses
+## Follow-up emails (Gmail drafts, never sent)
 
-Copy `people.yaml.example` to `people.yaml` and fill in each person's
-address. `people.yaml` is git-ignored.
+1. Copy `people.yaml.example` to `people.yaml` and fill in each person's
+   address (`people.yaml` is git-ignored). The optional `sender:` line, or
+   the `ACTIONTRACK_SENDER` environment variable, sets the signature.
+2. Preview: `actiontrack followup "Priya Shah" --dry-run`
+3. Prepare: `actiontrack followup "Priya Shah"` writes the draft to
+   `outbox/<time>-<name>.json`.
+4. In Claude Code, ask: *"Create Gmail drafts from the files in outbox/"*.
+   Claude's Gmail connector creates each one as a **draft** in your Drafts
+   folder for you to review and send yourself.
+
+actiontrack has no send function at all; a test scans the code and fails
+the build if one ever appears (NFR-02).
 
 ## Development
 
@@ -85,6 +94,9 @@ actiontrack/
   dedupe.py    M6  merge repeated tasks across meetings
   store.py     M7  JSON store, stable IDs, atomic save
   query.py     M8  list filters, overdue rule, table, done
+  followup.py  M9  collect open/overdue items, compose email
+  people.py    M9  people.yaml (name -> email)
+  drafts.py    M9  draft hand-off (create only, never send)
   report.py    M10 ingest summary
   ingest.py        ingest pipeline (per-note error boundary)
 tests/
@@ -103,7 +115,7 @@ tests/
 | 3 | Note reader + item extractor | Done |
 | 4 | Owner + date resolvers | Done |
 | 5 | Dedupe + storage → `ingest` | Done |
-| 6 | `list` and `done` | **Done** |
-| 7 | `followup` | Next |
-| 8 | Reporting + full test pass | |
+| 6 | `list` and `done` | Done |
+| 7 | `followup` | **Done** |
+| 8 | Reporting + full test pass | Next |
 | 9 | README + demo | |

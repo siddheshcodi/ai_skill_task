@@ -1,8 +1,7 @@
 """M1 CLI: parse commands, validate input, dispatch, map errors to exit codes.
 
-This module holds no business logic. Each ``_cmd_*`` handler calls one
-service function; until a service exists the handler raises
-``NotImplementedYetError`` naming the milestone that delivers it.
+This module holds no business logic. Each ``_cmd_*`` handler opens the
+store, calls one service function and prints its result.
 """
 
 from __future__ import annotations
@@ -18,15 +17,16 @@ from pathlib import Path
 from typing import NoReturn
 
 from actiontrack import __version__
+from actiontrack.drafts import DEFAULT_OUTBOX, HandoffDraftCreator
 from actiontrack.errors import (
     EXIT_FAILURE,
     EXIT_INTERRUPTED,
     EXIT_OK,
     EXIT_USAGE,
     ActionTrackError,
-    NotImplementedYetError,
     UserInputError,
 )
+from actiontrack.followup import run_followup
 from actiontrack.ingest import run_ingest
 from actiontrack.models import FILTER_STATUSES
 from actiontrack.query import DoneResult, filter_items, format_table, mark_done
@@ -199,6 +199,13 @@ def build_parser() -> argparse.ArgumentParser:
         default=Path(DEFAULT_PEOPLE),
         help=f"name-to-email list (default: ./{DEFAULT_PEOPLE})",
     )
+    p_followup.add_argument(
+        "--outbox",
+        type=Path,
+        metavar="PATH",
+        default=Path(DEFAULT_OUTBOX),
+        help=f"folder for draft files for the Gmail connector (default: ./{DEFAULT_OUTBOX})",
+    )
     p_followup.set_defaults(func=_cmd_followup)
 
     return parser
@@ -282,7 +289,16 @@ def _color_enabled() -> bool:
 
 
 def _cmd_followup(args: argparse.Namespace) -> int:
-    raise NotImplementedYetError("'followup' is not available yet (planned for milestone 7).")
+    store = _open_store(args)
+    run_followup(
+        args.owner,
+        store.load_all(),
+        args.people,
+        lambda: HandoffDraftCreator(args.outbox),
+        dry_run=args.dry_run,
+        today=_today(),
+    )
+    return EXIT_OK
 
 
 # ---------------------------------------------------------------- entry point
